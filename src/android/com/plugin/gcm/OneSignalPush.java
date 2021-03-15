@@ -202,11 +202,11 @@ public class OneSignalPush extends CordovaPlugin {
         break;
 
       case SEND_TAGS:
-        result = OneSignalController.sendTags(data);
+        result = OneSignalController.sendTags(data, callbackContext);
         break;
 
       case DELETE_TAGS:
-        result = OneSignalController.deleteTags(data);
+        result = OneSignalController.deleteTags(data, callbackContext);
         break;
 
       case REGISTER_FOR_PUSH_NOTIFICATIONS:

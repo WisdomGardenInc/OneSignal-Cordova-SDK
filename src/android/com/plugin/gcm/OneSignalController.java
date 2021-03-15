@@ -19,6 +19,7 @@ import com.onesignal.OneSignal.NotificationReceivedHandler;
 import com.onesignal.OneSignal.GetTagsHandler;
 import com.onesignal.OneSignal.IdsAvailableHandler;
 import com.onesignal.OneSignal.PostNotificationResponseHandler;
+import com.onesignal.OneSignal.ChangeTagsUpdateHandler;
 
 public class OneSignalController {
   private static CallbackContext notifReceivedCallbackContext;
@@ -41,9 +42,20 @@ public class OneSignalController {
     return true;
   }
 
-  public static boolean sendTags(JSONArray data) {
+  public static boolean sendTags(JSONArray data, CallbackContext callbackContext) {
+    final CallbackContext callback = callbackContext;
     try {
-      OneSignal.sendTags(data.getJSONObject(0));
+      OneSignal.sendTags(data.getJSONObject(0), new ChangeTagsUpdateHandler() {
+        @Override
+        public void onSuccess(JSONObject jsonObject) {
+          CallbackHelper.callbackSuccess(callback,  new JSONObject());
+        }
+
+        @Override
+        public void onFailure(OneSignal.SendTagsError sendTagsError) {
+          CallbackHelper.callbackSuccess(callback,  new JSONObject());
+        }
+      });
     }
     catch (Throwable t) {
       t.printStackTrace();
@@ -51,12 +63,25 @@ public class OneSignalController {
     return true;
   }
 
-  public static boolean deleteTags(JSONArray data) {
+  public static boolean deleteTags(JSONArray data, CallbackContext callbackContext) {
+    final CallbackContext callback = callbackContext;
+
     try {
       Collection<String> list = new ArrayList<String>();
       for (int i = 0; i < data.length(); i++)
         list.add(data.get(i).toString());
-      OneSignal.deleteTags(list);
+
+      OneSignal.deleteTags(list, new ChangeTagsUpdateHandler() {
+       @Override
+       public void onSuccess(JSONObject jsonObject) {
+         CallbackHelper.callbackSuccess(callback,  new JSONObject());
+       }
+
+       @Override
+       public void onFailure(OneSignal.SendTagsError sendTagsError) {
+         CallbackHelper.callbackSuccess(callback,  new JSONObject());
+       }
+     });
       return true;
     } catch (Throwable t) {
       t.printStackTrace();

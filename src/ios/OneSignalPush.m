@@ -44,6 +44,8 @@ NSString* setUnauthenticatedEmailCallbackId;
 NSString* setExternalIdCallbackId;
 NSString* logoutEmailCallbackId;
 NSString* emailSubscriptionCallbackId;
+NSString* sendTagsCallbackId;
+NSString* deleteTagsCallbackId;
 
 OSNotificationOpenedResult* actionNotification;
 OSNotification *notification;
@@ -217,12 +219,22 @@ static Class delegateClass = nil;
     }];
 }
 
-- (void)sendTags:(CDVInvokedUrlCommand*)command {
-    [OneSignal sendTags:command.arguments[0]];
+- (void)sendTags:(CDVInvokedUrlCommand*)command {   
+    sendTagsCallbackId = command.callbackId;
+    [OneSignal sendTags:command.arguments[0] onSuccess:^(NSDictionary *result) {
+        successCallback(sendTagsCallbackId, result);
+    } onFailure:^(NSError *error) {
+        successCallback(sendTagsCallbackId, error);
+    }];
 }
 
 - (void)deleteTags:(CDVInvokedUrlCommand*)command {
-    [OneSignal deleteTags:command.arguments];
+    deleteTagsCallbackId = command.callbackId;
+    [OneSignal deleteTags:command.arguments[0] onSuccess:^(NSDictionary *result) {
+        successCallback(deleteTagsCallbackId, result);
+    } onFailure:^(NSError *error) {
+        successCallback(deleteTagsCallbackId, error);
+    }];
 }   
 
 - (void)registerForPushNotifications:(CDVInvokedUrlCommand*)command {

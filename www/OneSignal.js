@@ -160,22 +160,22 @@ OneSignal.prototype.getTags = function(tagsReceivedCallBack) {
     cordova.exec(tagsReceivedCallBack, function(){}, "OneSignalPush", "getTags", []);
 };
 
-OneSignal.prototype.sendTag = function(key, value) {
+OneSignal.prototype.sendTag = function(key, value, callback) {
     jsonKeyValue = {};
     jsonKeyValue[key] = value;
-    cordova.exec(function(){}, function(){}, "OneSignalPush", "sendTags", [jsonKeyValue]);
+    cordova.exec(callback, function(){}, "OneSignalPush", "sendTags", [jsonKeyValue]);
 };
 
-OneSignal.prototype.sendTags = function(tags) {
-    cordova.exec(function(){}, function(){}, "OneSignalPush", "sendTags", [tags]);
+OneSignal.prototype.sendTags = function(tags, callback) {
+    cordova.exec(callback, function(){}, "OneSignalPush", "sendTags", [tags]);
 };
 
-OneSignal.prototype.deleteTag = function(key) {
-    cordova.exec(function(){}, function(){}, "OneSignalPush", "deleteTags", [key]);
+OneSignal.prototype.deleteTag = function(key, callback) {
+    cordova.exec(callback, function(){}, "OneSignalPush", "deleteTags", [key]);
 };
 
-OneSignal.prototype.deleteTags = function(keys) {
-    cordova.exec(function(){}, function(){}, "OneSignalPush", "deleteTags", keys);
+OneSignal.prototype.deleteTags = function(keys, callback) {
+    cordova.exec(callback, function(){}, "OneSignalPush", "deleteTags", keys);
 };
 
 // Only applies to iOS(does nothing on Android as it always silently registers)
