@@ -224,16 +224,16 @@ static Class delegateClass = nil;
     [OneSignal sendTags:command.arguments[0] onSuccess:^(NSDictionary *result) {
         successCallback(sendTagsCallbackId, result);
     } onFailure:^(NSError *error) {
-        successCallback(sendTagsCallbackId, error);
+        successCallback(sendTagsCallbackId, @{});
     }];
 }
 
 - (void)deleteTags:(CDVInvokedUrlCommand*)command {
     deleteTagsCallbackId = command.callbackId;
-    [OneSignal deleteTags:command.arguments[0] onSuccess:^(NSDictionary *result) {
+    [OneSignal deleteTags:command.arguments onSuccess:^(NSDictionary *result) {
         successCallback(deleteTagsCallbackId, result);
     } onFailure:^(NSError *error) {
-        successCallback(deleteTagsCallbackId, error);
+        successCallback(deleteTagsCallbackId, @{});
     }];
 }   
 
