@@ -380,12 +380,15 @@ static Class delegateClass = nil;
     if (command.arguments.count > 1)
         authHashToken = command.arguments[1];
 
-    [OneSignal setExternalUserId:externalId withExternalIdAuthHashToken:authHashToken withSuccess:^(NSDictionary *results) {
-        successCallback(setExternalIdCallbackId, results);
-    } withFailure: ^(NSError* error) {
-        [OneSignal onesignal_Log:ONE_S_LL_VERBOSE message:[NSString stringWithFormat:@"Set external user id Failure with error: %@", error]];
-        failureCallback(setExternalIdCallbackId, error.userInfo);
-    }];
+    setExternalIdCallbackId = command.callbackId;
+
+        NSString *externalId = command.arguments[0];
+        NSString *authHashToken = nil;
+
+        if (command.arguments.count > 1)
+            authHashToken = command.arguments[1];
+
+        [OneSignal setExternalUserId:externalId];
 }
 
 - (void)removeExternalUserId:(CDVInvokedUrlCommand *)command {
