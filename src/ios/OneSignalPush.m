@@ -375,20 +375,8 @@ static Class delegateClass = nil;
     setExternalIdCallbackId = command.callbackId;
 
     NSString *externalId = command.arguments[0];
-    NSString *authHashToken = nil;
 
-    if (command.arguments.count > 1)
-        authHashToken = command.arguments[1];
-
-    setExternalIdCallbackId = command.callbackId;
-
-        NSString *externalId = command.arguments[0];
-        NSString *authHashToken = nil;
-
-        if (command.arguments.count > 1)
-            authHashToken = command.arguments[1];
-
-        [OneSignal setExternalUserId:externalId];
+    [OneSignal setExternalUserId:externalId];
 }
 
 - (void)removeExternalUserId:(CDVInvokedUrlCommand *)command {

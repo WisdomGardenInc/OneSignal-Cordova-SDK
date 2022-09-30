@@ -1,1 +1,4 @@
 *.zip
+*.tgz
+.git
+.idea
